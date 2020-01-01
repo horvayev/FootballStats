@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Application.UseCases.CreateTeam;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,11 +13,13 @@ namespace WebApi.Controllers.CreateTeam
     {
         private readonly CreateTeamPresenter _presenter;
         private readonly ICreateTeamUseCase _useCase;
+        private readonly IMapper _mapper;
 
-        public TeamsController(ICreateTeamUseCase useCase, CreateTeamPresenter presenter)
+        public TeamsController(ICreateTeamUseCase useCase, CreateTeamPresenter presenter, IMapper mapper)
         {
             _useCase = useCase;
             _presenter = presenter;
+            _mapper = mapper;
         }
 
         [HttpPost]
@@ -25,11 +28,7 @@ namespace WebApi.Controllers.CreateTeam
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] CreateTeamRequest request)
         {
-            var input = new CreateTeamInput
-            {
-                Name = request.Name,
-                Stadium = request.Stadium
-            };
+            CreateTeamInput input = _mapper.Map<CreateTeamInput>(request);
             await _useCase.Execute(input);
             return _presenter.ViewModel;
         }

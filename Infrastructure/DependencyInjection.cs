@@ -1,8 +1,10 @@
 using Application.Repositories;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace Infrastructure
 {
@@ -21,8 +23,10 @@ namespace Infrastructure
                 services.AddDbContext<Infrastructure.EFDataAccess.FootballStatsDbContext>(options => {
                     options.UseNpgsql(connectionString);                    
                 });
-                services.AddScoped<ITeamRepository, Infrastructure.EFDataAccess.Repositories.TeamRepository>();
+                services.AddScoped<ITeamRepository, EFDataAccess.Repositories.TeamRepository>();
             }
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             return services;
         }

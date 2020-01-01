@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Application.Exceptions;
 using Application.Repositories;
+using AutoMapper;
 using Domain.Entities;
 
 namespace Application.UseCases.CreateTeam
@@ -9,11 +10,13 @@ namespace Application.UseCases.CreateTeam
     {
         private IOutputPort _outputPort;
         private ITeamRepository _teamRepository;
+        private IMapper _mapper;
 
-        public CreateTeamUseCase(ITeamRepository teamRepository, IOutputPort outputPort)
+        public CreateTeamUseCase(ITeamRepository teamRepository, IOutputPort outputPort, IMapper mapper)
         {
             _teamRepository = teamRepository;
             _outputPort = outputPort;
+            _mapper = mapper;
         }
 
         public async Task Execute(CreateTeamInput input)
@@ -23,19 +26,15 @@ namespace Application.UseCases.CreateTeam
 
             if (storedTeam != null) 
             {
-                _outputPort.Exception(new AlreadyExistsException("Team", "Name", input.Name));                
+                _outputPort.Exception(new AlreadyExistsException("Team", "Name", input.Name));
+                return;
             }
 
-            Team team = await _teamRepository.Add(new Team {
-                Name = input.Name,
-                Stadium = input.Stadium
-            });
+            Team team = _mapper.Map<Team>(input);
+            await _teamRepository.Add(team);
 
-            _outputPort.Standard(new CreateTeamOutput {
-                Id = team.Id,
-                Name = team.Name,
-                Stadium = team.Stadium
-            });
+            CreateTeamOutput output = _mapper.Map<CreateTeamOutput>(team);
+            _outputPort.Standard(output);
         }
     }
 }
