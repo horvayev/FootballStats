@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Infrastructure;
 using WebApi.DependencyInjection;
+using Microsoft.OpenApi.Models;
 
 namespace WebApi
 {
@@ -34,11 +35,22 @@ namespace WebApi
             services.AddInfrastructure(_configuration, _env);
             services.AddUseCases();
             services.AddPresenters();
+
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "FootballStats API", Version = "v1" });                
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSwagger();
+            app.UseSwaggerUI(o =>
+            {
+                o.SwaggerEndpoint("/swagger/v1/swagger.json", "FootballStats API v1");
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -48,7 +60,7 @@ namespace WebApi
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();         
+                endpoints.MapControllers();
             });
 
             app.UseCors();
