@@ -1,8 +1,0 @@
-/home/frosimouss/Projects/FootballStats/Domain/obj/Debug/netcoreapp3.0/Domain.csprojAssemblyReference.cache
-/home/frosimouss/Projects/FootballStats/Domain/obj/Debug/netcoreapp3.0/Domain.AssemblyInfoInputs.cache
-/home/frosimouss/Projects/FootballStats/Domain/obj/Debug/netcoreapp3.0/Domain.AssemblyInfo.cs
-/home/frosimouss/Projects/FootballStats/Domain/bin/Debug/netcoreapp3.0/Domain.deps.json
-/home/frosimouss/Projects/FootballStats/Domain/bin/Debug/netcoreapp3.0/Domain.dll
-/home/frosimouss/Projects/FootballStats/Domain/bin/Debug/netcoreapp3.0/Domain.pdb
-/home/frosimouss/Projects/FootballStats/Domain/obj/Debug/netcoreapp3.0/Domain.dll
-/home/frosimouss/Projects/FootballStats/Domain/obj/Debug/netcoreapp3.0/Domain.pdb
