@@ -1,0 +1,37 @@
+version: "3.7"
+
+services:
+    db:
+        image: postgres
+        container_name: postgres_container
+        restart: unless-stopped
+        ports:
+            - 5432:5432
+        environment: 
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: password
+            PGDATA: /data/postgres
+        volumes:
+            - postgres:/data/postgres
+        networks:
+            - postgres 
+    
+    app:
+        image: ehorvat/footballstats
+        container_name: footballstats_container
+        restart: unless-stopped
+        depends_on: 
+            - db
+        ports: 
+            - 80:80
+            - 443:443
+        networks:
+            - postgres
+
+networks:
+    postgres:
+        driver: bridge
+
+volumes:
+    postgres:
+    pgadmin:
