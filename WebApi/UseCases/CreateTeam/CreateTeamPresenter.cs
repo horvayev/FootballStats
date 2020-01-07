@@ -1,4 +1,5 @@
 using Application.UseCases.CreateTeam;
+using Application.Validation;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +16,7 @@ namespace WebApi.Controllers.CreateTeam
 
         public void NotFound(string message)
         {
-            throw new System.NotImplementedException();
+            ViewModel = new BadRequestObjectResult(message);
         }
 
         public void Standard(CreateTeamOutput output)
@@ -28,6 +29,11 @@ namespace WebApi.Controllers.CreateTeam
             };
 
             ViewModel = new ObjectResult(response);
+        }
+
+        public void ValidationError(ValidationResult validation)
+        {
+            ViewModel = new BadRequestObjectResult(validation.Errors[0].ErrorMessage);
         }
     }
 }

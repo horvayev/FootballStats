@@ -12,7 +12,7 @@ services:
             POSTGRES_PASSWORD: password
             PGDATA: /data/postgres
         volumes:
-            - postgres:/data/postgres
+            - ./postgres-data:/var/lib/postgresql/data
         networks:
             - postgres 
     
@@ -23,7 +23,7 @@ services:
         depends_on: 
             - db  
         volumes:
-            - pgadmin:/root/.pgadmin
+            - ./pgadmin-data:/var/lib/pgadmin/data
         ports: 
             - 5050:5050
         networks:
@@ -32,7 +32,3 @@ services:
 networks:
     postgres:
         driver: bridge
-
-volumes:
-    postgres:
-    pgadmin:

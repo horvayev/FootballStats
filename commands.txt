@@ -1,0 +1,7 @@
+docker-compose -f docker-compose.dev.yml up
+
+//creating migrations
+dotnet-ef migrations add player --project Infrastructure --startup-project WebApi
+
+// apply migration to db
+dotnet-ef database update --project Infrastructure --startup-project WebApi

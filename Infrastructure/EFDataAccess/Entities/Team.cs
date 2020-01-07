@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Infrastructure.EFDataAccess.Entities
 {
     public class Team
@@ -5,5 +7,6 @@ namespace Infrastructure.EFDataAccess.Entities
         public int Id { get; set; }
         public string Name { get; set; } 
         public string Stadium { get; set; }
+        public ICollection<Player> Players { get; set; }
     }
 }

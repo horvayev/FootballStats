@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Application.Exceptions;
 using Application.Repositories;
+using Application.Validation;
 using AutoMapper;
 using Domain.Entities;
 
@@ -31,6 +32,14 @@ namespace Application.UseCases.CreateTeam
             }
 
             Team team = _mapper.Map<Team>(input);
+
+            ValidationResult validation = new TeamValidator().Validate(team);
+            if (!validation.IsValid)
+            {
+                _outputPort.ValidationError(validation);
+                return;
+            }
+
             await _teamRepository.Add(team);
 
             CreateTeamOutput output = _mapper.Map<CreateTeamOutput>(team);
